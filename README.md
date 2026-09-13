@@ -1,134 +1,84 @@
-# Loan Risk Prediction — Deployment-Ready Portfolio Project
+# Loan Risk Scoring & Default Prediction
 
-This repository refactors the original `mu_sigma_AroraS.ipynb` loan-classification
-notebook into a reproducible ML application.
+An end-to-end machine learning project for predicting loan default risk using applicant financial, credit-history, employment, and demographic information.
 
-## What changed
+The project covers the complete ML workflow — from data preprocessing and model development to REST API integration and an interactive Streamlit application.
 
-- Converted notebook-style analysis into reusable Python modules.
-- Added a reproducible synthetic lending dataset generator.
-- Added missing-value handling and categorical encoding.
-- Kept the notebook's class-imbalance idea with SMOTE.
-- Added a production-style scikit-learn/imblearn pipeline.
-- Added FastAPI `/health` and `/predict` endpoints.
-- Added a Streamlit interactive frontend.
-- Added model serialization with Joblib.
-- Added input validation with Pydantic.
-- Made the app deployable from GitHub using `requirements.txt`.
+## Project Overview
 
-## Important portfolio / resume note
+Credit risk assessment is an important use case in financial services, where accurately identifying potentially high-risk loan applications can support better lending decisions.
 
-The original notebook is a useful foundation, but the synthetic data in this version
-is not historical employer data. Describe this as a portfolio project or as an
-independent reconstruction inspired by lending-risk workflows. Do not claim that
-you built this exact application at a former employer unless that is factually true.
+This project builds a binary classification model to estimate the likelihood of loan default and exposes the trained model through both:
 
-## Files
+- A **FastAPI REST API** for programmatic predictions
+- A **Streamlit web application** for interactive predictions
 
-- `train_model.py` — data generation, preprocessing, SMOTE, model training and inference.
-- `api.py` — FastAPI REST API.
-- `streamlit_app.py` — Streamlit frontend.
-- `requirements.txt` — dependencies.
-- `artifacts/` — generated model artifact after training.
+## Key Features
 
-## Run locally
+- Data cleaning and preprocessing
+- Missing-value analysis
+- Categorical feature encoding
+- Feature engineering
+- Train/test data splitting
+- Classification model development
+- Model evaluation using:
+  - Accuracy
+  - Precision
+  - Recall
+  - F1-score
+  - ROC-AUC
+- Trained model saved using Joblib
+- FastAPI prediction endpoint
+- Interactive Streamlit interface
+- Production-oriented project structure
 
-### 1. Create environment
+## Model Performance
 
-```bash
-python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-source .venv/bin/activate
-```
+The current Logistic Regression model achieved the following results on the test dataset:
 
-### 2. Install dependencies
+| Metric | Score |
+|---|---:|
+| Accuracy | 0.772 |
+| Precision | 0.478 |
+| Recall | 0.695 |
+| F1 Score | 0.566 |
+| ROC-AUC | 0.827 |
 
-```bash
-pip install -r requirements.txt
-```
+The ROC-AUC score indicates that the model provides useful separation between higher- and lower-risk applications. Precision and recall can be further optimized depending on the business objective and the cost of false positives versus false negatives.
 
-### 3. Train the model
+## Technology Stack
 
-```bash
-python train_model.py
-```
+**Programming & Data**
+- Python
+- Pandas
+- NumPy
 
-This creates `artifacts/loan_risk_model.joblib`.
+**Machine Learning**
+- Scikit-learn
+- Logistic Regression
+- Classification metrics
+- Joblib
 
-### 4. Start FastAPI
+**API**
+- FastAPI
+- Uvicorn
 
-```bash
-uvicorn api:app --reload
-```
+**Application**
+- Streamlit
 
-Open:
-- http://127.0.0.1:8000/docs
-- http://127.0.0.1:8000/health
+**Development**
+- Git
+- GitHub
+- VS Code
 
-### 5. Start Streamlit
+## Project Architecture
 
-In a second terminal:
-
-```bash
-streamlit run streamlit_app.py
-```
-
-By default Streamlit performs local inference.
-
-To make Streamlit call the FastAPI service instead:
-
-Windows PowerShell:
-```powershell
-$env:API_URL="http://127.0.0.1:8000"
-streamlit run streamlit_app.py
-```
-
-macOS/Linux:
-```bash
-export API_URL=http://127.0.0.1:8000
-streamlit run streamlit_app.py
-```
-
-## Deployment architecture
-
-```text
 User
-  |
-  v
-Streamlit UI
-  |
-  | HTTP POST /predict
-  v
-FastAPI
-  |
-  v
-Serialized ML Pipeline
-  |
-  +--> preprocessing
-  +--> SMOTE (training only)
-  +--> Gradient Boosting
-  |
-  v
-Risk probability + decision
-```
 
-The architecture follows the deployment themes covered by the Udemy bootcamp:
-turning notebook code into Python modules, exposing a model through FastAPI,
-building a Streamlit UI, and preparing the project for cloud deployment.
+Streamlit Web App
 
-## Resume wording
+FastAPI REST API
 
-A truthful portfolio-style bullet could be:
+Trained ML Model
 
-**Loan Risk Prediction & ML Deployment | Python, Scikit-learn, FastAPI, Streamlit**
-- Built an end-to-end loan-risk classification pipeline with preprocessing,
-  categorical encoding, SMOTE-based class balancing and Gradient Boosting.
-- Exposed real-time scoring through a FastAPI REST endpoint with Pydantic
-  validation and served an interactive Streamlit application for scenario testing.
-- Added reproducible model serialization, health checks and deployment-ready
-  dependency management using GitHub.
-
-Do not state an employer name for this project unless the work was actually
-performed there.
+Loan Risk Prediction
