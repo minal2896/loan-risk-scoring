@@ -73,12 +73,12 @@ The ROC-AUC score indicates that the model provides useful separation between hi
 
 ## Project Architecture
 
-User
+1. User
 
-Streamlit Web App
+2. Streamlit Web App
 
-FastAPI REST API
+3. FastAPI REST API
 
-Trained ML Model
+4. Trained ML Model
 
-Loan Risk Prediction
+5. Loan Risk Prediction
